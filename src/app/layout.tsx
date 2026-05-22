@@ -93,7 +93,7 @@ export default function RootLayout({
                     "radial-gradient(circle at 35% 35%, #facc15 0%, #f59e0b 30%, #7c3aed 70%, #4c1d95 100%)",
                 }}
               />
-              available to work
+              Available for freelance & full-time
             </p>
 
             <nav className="pointer-events-auto shrink-0 md:translate-x-4">
