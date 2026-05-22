@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3edff;
+  --foreground: #1a1a1a;
+  --paper: #f3edff;
+  --accent: #0f766e;
+  --neon-grid-rotate: 0deg;
+  --neon-grid-shift: 0px;
+  --neon-grid-opacity: 0.42;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-fira-code);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.neon-scroll-bg {
+  @apply pointer-events-none fixed inset-0 overflow-hidden;
+  z-index: 0;
+}
+
+.neon-scroll-bg::before {
+  content: "";
+  @apply absolute;
+  left: 50%;
+  top: 50%;
+  width: 220vw;
+  height: 220vh;
+  opacity: var(--neon-grid-opacity);
+  transform: translate(-50%, -50%) rotate(var(--neon-grid-rotate));
+  transform-origin: center;
+  transition: transform 80ms linear, opacity 140ms ease, background-position 80ms linear;
+  background-position: var(--neon-grid-shift) 0, var(--neon-grid-shift) 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(76, 29, 149, 0.7) 0px,
+      rgba(245, 234, 117, 0.55) 1px,
+      rgba(30, 58, 138, 0.68) 2px,
+      transparent 2px,
+      transparent 68px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(76, 29, 149, 0.62) 0px,
+      rgba(245, 234, 117, 0.48) 1px,
+      rgba(30, 58, 138, 0.56) 2px,
+      transparent 2px,
+      transparent 68px
+    );
+}
+
+.neon-scroll-bg::after {
+  content: "";
+  @apply absolute;
+  left: 50%;
+  top: 50%;
+  width: 220vw;
+  height: 220vh;
+  transform: translate(-50%, -50%);
+  opacity: 0.22;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(117, 84, 255, 0.2), transparent 46%),
+    radial-gradient(circle at 88% 82%, rgba(82, 61, 225, 0.18), transparent 44%),
+    radial-gradient(circle at 50% 50%, rgba(244, 237, 255, 0), rgba(244, 237, 255, 0.4) 82%);
+  filter: blur(8px);
+  -webkit-mask-image: radial-gradient(135% 120% at 50% 50%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(135% 120% at 50% 50%, #000 62%, transparent 100%);
+}
+
+.topbar {
+  @apply sticky top-0 z-30 border-b border-[#312e81]/15 backdrop-blur-xl;
+  background: linear-gradient(
+    90deg,
+    rgba(244, 240, 255, 0.92) 0%,
+    rgba(236, 229, 255, 0.92) 45%,
+    rgba(244, 240, 255, 0.92) 100%
+  );
+}
+
+.topbar::before {
+  content: "";
+  @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+  background: linear-gradient(
+    90deg,
+    rgba(76, 29, 149, 0) 0%,
+    rgba(76, 29, 149, 0.65) 50%,
+    rgba(76, 29, 149, 0) 100%
+  );
+}
+
+.topbar-inner {
+  @apply relative;
+}
+
+.topbar-inner::after {
+  content: "";
+  @apply pointer-events-none absolute right-24 top-1/2 h-16 w-48 -translate-y-1/2 rounded-full;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.2) 0%, rgba(109, 40, 217, 0) 70%);
+}
+
+.topbar-brand {
+  @apply inline-flex items-center gap-2 font-extrabold text-[#312e81];
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.brand-dot {
+  @apply h-2.5 w-2.5 rounded-full;
+  background: radial-gradient(circle at 30% 30%, #c4b5fd 0%, #7c3aed 55%, #4c1d95 100%);
+  box-shadow: 0 0 10px rgba(109, 40, 217, 0.7);
+}
+
+.nav-list {
+  @apply rounded-full border border-[#312e81]/15 bg-white/65 p-1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.card {
+  @apply space-y-3 rounded-2xl border border-black/10 bg-[var(--paper)] p-5 shadow-[0_15px_40px_-30px_rgba(0,0,0,0.65)];
+}
+
+.chip {
+  @apply rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold;
+}
+
+.button-primary {
+  @apply rounded-full bg-[var(--accent)] px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90;
+}
+
+.button-secondary {
+  @apply rounded-full border border-black/20 bg-white px-5 py-2 text-sm font-semibold transition hover:bg-black/5;
+}
+
+.hero-btn {
+  @apply inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition-all duration-200;
+}
+
+.resume-btn {
+  @apply border-transparent bg-gradient-to-r from-[#0f766e] via-[#0d9488] to-[#0f766e] text-white shadow-[0_10px_24px_-10px_rgba(15,118,110,0.8)] hover:-translate-y-0.5 hover:from-[#115e59] hover:to-[#0f766e];
+}
+
+.social-btn {
+  @apply border-black/25 bg-white text-black hover:-translate-y-0.5;
+}
+
+.social-circle {
+  @apply h-12 w-12 aspect-square shrink-0 items-center justify-center rounded-full border-2 p-0 leading-none;
+}
+
+.social-circle svg {
+  @apply h-5 w-5;
+}
+
+.github-btn:hover {
+  @apply border-[#24292f] bg-[#24292f] text-white;
+}
+
+.linkedin-btn:hover {
+  @apply border-[#0a66c2] bg-[#0a66c2] text-white;
+}
+
+.email-btn:hover {
+  @apply border-[#ea4335] bg-[#ea4335] text-white;
+}
+
+.contact-btn:hover {
+  @apply border-[var(--accent)] bg-[var(--accent)] text-white;
+}
+
+.link-inline {
+  @apply font-semibold text-[var(--accent)] underline decoration-2 underline-offset-4;
+}
+
+.nav-link {
+  @apply rounded-full px-4 py-1.5 font-semibold text-[#312e81] transition-all duration-200 hover:-translate-y-px hover:bg-[#ede9fe] hover:text-[#4c1d95];
+}
+
+.nav-link:focus-visible {
+  @apply outline-none ring-2 ring-[#7c3aed]/40;
+}
