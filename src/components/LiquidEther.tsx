@@ -584,7 +584,7 @@ export default function LiquidEther({
         this.scene = new THREE.Scene();
         this.camera = new THREE.Camera();
         if (this.uniforms) {
-          this.material = new THREE.RawShaderMaterial(this.props.material as THREE.RawShaderMaterialParameters);
+          this.material = new THREE.RawShaderMaterial(this.props.material as THREE.ShaderMaterialParameters);
           this.geometry = new THREE.PlaneGeometry(2, 2);
           this.plane = new THREE.Mesh(this.geometry, this.material);
           this.scene.add(this.plane);
@@ -652,24 +652,24 @@ export default function LiquidEther({
         super({ output: simProps.dst });
         this.init(simProps);
       }
-      init(simProps: Record<string, unknown>) {
-        super.init();
-        const mouseG = new THREE.PlaneGeometry(1, 1);
-        const mouseM = new THREE.RawShaderMaterial({
-          vertexShader: mouse_vert,
-          fragmentShader: externalForce_frag,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          uniforms: {
-            px: { value: simProps.cellScale },
-            force: { value: new THREE.Vector2(0, 0) },
-            center: { value: new THREE.Vector2(0, 0) },
-            scale: { value: new THREE.Vector2(simProps.cursor_size as number, simProps.cursor_size as number) },
-          },
-        });
-        this.mouse = new THREE.Mesh(mouseG, mouseM);
-        this.scene!.add(this.mouse);
-      }
+      override init(simProps?: Record<string, unknown>) {
+      super.init();
+      const mouseG = new THREE.PlaneGeometry(1, 1);
+      const mouseM = new THREE.RawShaderMaterial({
+        vertexShader: mouse_vert,
+        fragmentShader: externalForce_frag,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        uniforms: {
+          px: { value: simProps?.cellScale },
+          force: { value: new THREE.Vector2(0, 0) },
+          center: { value: new THREE.Vector2(0, 0) },
+          scale: { value: new THREE.Vector2(simProps?.cursor_size as number, simProps?.cursor_size as number) },
+        },
+      });
+      this.mouse = new THREE.Mesh(mouseG, mouseM);
+      this.scene!.add(this.mouse);
+    }
       override update(props?: { mouse_force?: number; cellScale?: THREE.Vector2; cursor_size?: number }) {
         const forceX = (Mouse.diff.x / 2) * (props?.mouse_force || 0);
         const forceY = (Mouse.diff.y / 2) * (props?.mouse_force || 0);
