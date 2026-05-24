@@ -3,6 +3,8 @@ import { Space_Grotesk, Fira_Code } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { portfolioData } from "@/data/portfolio";
+import LiquidEther from "@/components/LiquidEther";
+import NeonGridBackground from "@/components/NeonGridBackground";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -82,6 +84,29 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${firaCode.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+          <LiquidEther
+            colors={["#5227FF", "#FF9FFC", "#B497CF"]}
+            mouseForce={36}
+            cursorSize={110}
+            isViscous
+            viscous={30}
+            iterationsViscous={32}
+            iterationsPoisson={36}
+            resolution={0.45}
+            isBounce={false}
+            autoDemo
+            autoSpeed={0.5}
+            autoIntensity={2.2}
+            takeoverDuration={0.25}
+            autoResumeDelay={3000}
+            autoRampDuration={0.6}
+            className="h-full w-full opacity-80"
+          />
+          <div className="absolute inset-0 bg-[#f3edff]/78" />
+        </div>
+        <NeonGridBackground />
+
         <header className="fixed inset-x-0 top-2 z-40 pointer-events-none">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 md:px-8 md:py-4">
             <p className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[#6d28d9]/20 bg-white/85 px-3 py-1.5 text-base font-bold tracking-tight text-[#3730a3] shadow-[0_8px_26px_-18px_rgba(49,46,129,0.7)]">
@@ -139,7 +164,7 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-24 pb-8 md:px-4 md:pt-24 md:pb-10">
+        <main className="relative z-10 mx-auto w-full max-w-6xl flex-1 px-4 pt-24 pb-8 md:px-4 md:pt-24 md:pb-10">
           {children}
         </main>
       </body>

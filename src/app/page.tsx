@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
@@ -11,49 +10,10 @@ export default function Home() {
   const [firstName, ...remainingNameParts] = personal.name.split(" ");
   const lastName = remainingNameParts.join(" ");
 
-  useEffect(() => {
-    let rafId = 0;
-
-    const updateNeonGrid = () => {
-      const maxScroll = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-      const progress = Math.min(1, window.scrollY / maxScroll);
-
-      const rotate = progress * 150;
-      const shift = progress * 1200;
-      const opacity = Math.max(0.14, 0.24 - progress * 0.1);
-
-      const root = document.documentElement;
-      root.style.setProperty("--neon-grid-rotate", `${rotate.toFixed(2)}deg`);
-      root.style.setProperty("--neon-grid-shift", `${shift.toFixed(2)}px`);
-      root.style.setProperty("--neon-grid-opacity", opacity.toFixed(3));
-      rafId = 0;
-    };
-
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = window.requestAnimationFrame(updateNeonGrid);
-    };
-
-    updateNeonGrid();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, []);
-
   return (
     <div className="relative">
-      <div className="neon-scroll-bg" aria-hidden="true" />
-
       <div className="relative z-10 space-y-20 md:space-y-24">
-      <section className="relative grid items-center gap-6 py-6 md:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)] md:py-1">
+      <section className="relative grid items-center gap-6 overflow-hidden rounded-[2rem] border border-[#312e81]/10 py-6 md:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)] md:py-1">
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[60%] md:block">
           <Image
             src="/Woman Working on Laptop in Office.svg"
