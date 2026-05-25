@@ -86,24 +86,26 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
           <LiquidEther
-            colors={["#5227FF", "#FF9FFC", "#B497CF"]}
-            mouseForce={36}
-            cursorSize={110}
+            colors={["#cbbcfb", "#ddbefd", "#cec1ec"]}
+            color0="#cbbcfb"
+            color1="#ddbefd"
+            color2="#cec1ec"
+            mouseForce={40}
+            cursorSize={45}
             isViscous
-            viscous={30}
+            viscous={13}
             iterationsViscous={32}
-            iterationsPoisson={36}
-            resolution={0.45}
+            iterationsPoisson={20}
+            resolution={0.5}
             isBounce={false}
             autoDemo
             autoSpeed={0.5}
-            autoIntensity={2.2}
+            autoIntensity={3.2}
             takeoverDuration={0.25}
-            autoResumeDelay={3000}
+            autoResumeDelay={1000}
             autoRampDuration={0.6}
-            className="h-full w-full opacity-80"
+            className="h-full w-full"
           />
-          <div className="absolute inset-0 bg-[#f3edff]/78" />
         </div>
         <NeonGridBackground />
 

@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="relative z-10 space-y-20 md:space-y-24">
-      <section className="relative grid items-center gap-6 overflow-hidden rounded-[2rem] border border-[#312e81]/10 py-6 md:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)] md:py-1">
+      <section className="relative grid items-center gap-6 py-6 md:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)] md:py-1">
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[60%] md:block">
           <Image
             src="/Woman Working on Laptop in Office.svg"
@@ -53,11 +53,11 @@ export default function Home() {
               {personal.heroPoints.join(" | ")}
             </p>
           ) : null}
-          <p className="max-w-3xl text-base font-bold leading-relaxed text-[#1f2147] md:text-lg">
+          <p className="max-w-3xl text-base font-extrabold italic leading-relaxed text-[#1f2147] md:text-lg">
             {personal.shortBio}{" "}
             <Link
               href="/about"
-              className="inline-block text-[#4c1d95] underline decoration-2 underline-offset-4 transition hover:text-[#312e81]"
+              className="inline-block text-[#116956] underline decoration-2 underline-offset-4 transition hover:text-[#ebdf09]"
             >
               Know more about me
             </Link>
@@ -144,7 +144,10 @@ export default function Home() {
               </svg>
               <span className="sr-only">Email</span>
             </a>
-            <Link className="hero-btn social-btn contact-btn" href="/contact">
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-black/25 bg-white px-5 py-2 text-sm font-semibold text-black transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+              href="/contact"
+            >
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
@@ -253,8 +256,8 @@ export default function Home() {
       </section>
 
       <section className="space-y-7 pt-8 md:space-y-8 md:pt-1">
-        <h2 className="text-4xl font-medium tracking-tight text-black/85">
-          Technical Skills
+        <h2 className="text-4xl font-bold tracking-tight text-black/85">
+         Things I Can Do (That Actually Impress People)
         </h2>
         <div className="grid gap-6 md:grid-cols-2">
           {skillCategories.map((category) => (
