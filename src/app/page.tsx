@@ -1,14 +1,20 @@
-"use client";
+﻿"use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
+import VariableProximity from "@/components/VariableProximity";
 
 export default function Home() {
   const { personal, socialLinks, skillCategories, experience } = portfolioData;
   const hasLinkedIn = socialLinks.linkedin && socialLinks.linkedin !== "#";
   const [firstName, ...remainingNameParts] = personal.name.split(" ");
   const lastName = remainingNameParts.join(" ");
+  const techHeadingContainerRef = useRef<HTMLDivElement | null>(null);
+  const [isTechHeadingHovered, setIsTechHeadingHovered] = useState(false);
+  const shortBioContainerRef = useRef<HTMLDivElement | null>(null);
+  const [isShortBioHovered, setIsShortBioHovered] = useState(false);
 
   return (
     <div className="relative">
@@ -28,7 +34,17 @@ export default function Home() {
 
         <div className="relative z-10 space-y-5 md:space-y-7">
           <div className="space-y-1 md:space-y-2">
-            <p className="text-3xl font-bold leading-tight text-[#312e81] md:text-4xl">
+            <p
+              className="text-3xl font-bold leading-tight md:text-4xl"
+              style={{
+                fontWeight: 900,
+                color: "#fff44a",
+                WebkitTextFillColor: "#fff44a",
+                WebkitTextStroke: "1.05px #0b1f8a",
+                textShadow:
+                  "0 0 1px rgba(255, 244, 74, 1), 0 0 5px rgba(255, 235, 74, 0.95), 0 0 10px rgba(255, 220, 0, 0.75), 0 0 3px rgba(11, 31, 138, 0.45), 0 0 7px rgba(35, 73, 255, 0.35)",
+              }}
+            >
               Hello, I&apos;m
             </p>
             <h1 className="flex flex-nowrap items-end gap-3 whitespace-nowrap text-[85px] font-black leading-[0.9] tracking-tight">
@@ -49,19 +65,35 @@ export default function Home() {
             </p>
           ) : null}
           {personal.heroPoints?.length ? (
-            <p className="inline-flex max-w-3xl rounded-full border border-[#312e81]/20 bg-white/55 px-5 py-2 font-mono text-sm leading-relaxed text-[#312e81] shadow-[0_8px_20px_-16px_rgba(49,46,129,0.55)] md:text-base">
+            <p className="inline-flex max-w-3xl rounded-full border border-[#c82525]/20 bg-red/55 px-5 py-2 font-bold text-sm leading-relaxed text-[#c82581] shadow-[0_8px_20px_-16px_rgba(49,46,129,0.55)] md:text-base">
               {personal.heroPoints.join(" | ")}
             </p>
           ) : null}
-          <p className="max-w-3xl text-base font-extrabold italic leading-relaxed text-[#1f2147] md:text-lg">
-            {personal.shortBio}{" "}
+          <div
+            ref={shortBioContainerRef}
+            className="max-w-3xl"
+            onMouseEnter={() => setIsShortBioHovered(true)}
+            onMouseLeave={() => setIsShortBioHovered(false)}
+          >
+            <p className="text-base font-extrabold italic leading-relaxed text-[#1f2147] md:text-lg">
+              <VariableProximity
+                label={personal.shortBio}
+                className="inline"
+                fromFontVariationSettings="'wght' 700, 'opsz' 9"
+                toFontVariationSettings="'wght' 1000, 'opsz' 40"
+                containerRef={shortBioContainerRef}
+                radius={isShortBioHovered ? 190 : 0}
+                falloff="linear"
+                active={isShortBioHovered}
+              />
+            </p>
             <Link
               href="/about"
-              className="inline-block text-[#116956] underline decoration-2 underline-offset-4 transition hover:text-[#ebdf09]"
+              className="mt-1 inline-block text-[#116956] underline decoration-2 underline-offset-4 transition hover:text-[#ebdf09]"
             >
               Know more about me
             </Link>
-          </p>
+          </div>
           <div className="flex flex-wrap gap-3">
             <a
               className="hero-btn resume-btn"
@@ -162,6 +194,51 @@ export default function Home() {
         <div className="hidden min-h-[280px] w-full md:block" aria-hidden="true" />
       </section>
 
+            <section className="space-y-7 pt-8 md:space-y-8 md:pt-1">
+
+        <div
+          ref={techHeadingContainerRef}
+          className="relative"
+          onMouseEnter={() => setIsTechHeadingHovered(true)}
+          onMouseLeave={() => setIsTechHeadingHovered(false)}
+        >
+          <h2 className="text-4xl font-bold tracking-tight text-black/85">
+            <VariableProximity
+              label="Tech I've Picked Up and Worked With Along the Way"
+              className="inline"
+              fromFontVariationSettings="'wght' 700, 'opsz' 9"
+              toFontVariationSettings="'wght' 1000, 'opsz' 40"
+              containerRef={techHeadingContainerRef}
+              radius={isTechHeadingHovered ? 220 : 0}
+              falloff="linear"
+              active={isTechHeadingHovered}
+            />
+          </h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {skillCategories.map((category) => (
+            <article
+              key={category.title}
+              className="rounded-3xl border border-black/10 bg-white/92 p-6 shadow-[0_15px_35px_-30px_rgba(0,0,0,0.45)]"
+            >
+              <h3 className="mb-5 font-mono text-xl font-bold tracking-wide text-black/80">
+                {category.title}
+              </h3>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                {category.items.map((skill) => (
+                  <div
+                    key={skill}
+                    className="rounded-2xl border border-black/10 bg-white px-3 py-4 text-center text-sm font-semibold text-black/70"
+                  >
+                    {skill}
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="space-y-7 md:space-y-8">
         <h2 className="text-3xl font-bold">Experience</h2>
         <div className="grid gap-6 md:grid-cols-2">
@@ -254,35 +331,10 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <section className="space-y-7 pt-8 md:space-y-8 md:pt-1">
-        <h2 className="text-4xl font-bold tracking-tight text-black/85">
-         Things I Can Do (That Actually Impress People)
-        </h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {skillCategories.map((category) => (
-            <article
-              key={category.title}
-              className="rounded-3xl border border-black/10 bg-white/92 p-6 shadow-[0_15px_35px_-30px_rgba(0,0,0,0.45)]"
-            >
-              <h3 className="mb-5 font-mono text-xl font-bold tracking-wide text-black/80">
-                {category.title}
-              </h3>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                {category.items.map((skill) => (
-                  <div
-                    key={skill}
-                    className="rounded-2xl border border-black/10 bg-white px-3 py-4 text-center text-sm font-semibold text-black/70"
-                  >
-                    {skill}
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
       </div>
     </div>
   );
 }
+
+
+

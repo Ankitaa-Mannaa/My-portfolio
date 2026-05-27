@@ -1,10 +1,20 @@
 import { portfolioData } from "@/data/portfolio";
+import Lanyard from "@/components/Lanyard";
 
 export default function AboutPage() {
   const { personal, education, experience } = portfolioData;
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-6">
+      <div className="pointer-events-none fixed inset-0 z-[25] hidden lg:block">
+        <div className="pointer-events-auto h-full w-full">
+          <Lanyard
+            position={[0, 0, 20]}
+            gravity={[0, -40, 0]}
+            anchor={[0.75, 4, 0]}
+          />
+        </div>
+      </div>
       <h1 className="text-3xl font-black md:text-4xl">About</h1>
       <p className="max-w-3xl text-base leading-relaxed text-black/80 md:text-lg">
         {personal.shortBio}

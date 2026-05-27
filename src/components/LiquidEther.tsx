@@ -146,7 +146,13 @@ export default function LiquidEther({
         this.container = container;
         this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
         this.resize();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        try {
+          this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        } catch {
+          this.renderer = null;
+          this.clock = null;
+          return;
+        }
         this.renderer.autoClear = false;
         this.renderer.setClearColor(new THREE.Color(0x000000), 0);
         this.renderer.setPixelRatio(this.pixelRatio);
@@ -1058,13 +1064,13 @@ export default function LiquidEther({
       }
       resize() {
         Common.resize();
-        this.output.resize();
+        if (this.output) this.output.resize();
       }
       render() {
         if (this.autoDriver) this.autoDriver.update();
         Mouse.update();
         Common.update();
-        this.output.update();
+        if (this.output) this.output.update();
       }
       loop() {
         if (!this.running) return;
@@ -1072,7 +1078,7 @@ export default function LiquidEther({
         rafRef.current = requestAnimationFrame(this._loop);
       }
       start() {
-        if (this.running) return;
+        if (this.running || !this.output) return;
         this.running = true;
         this._loop();
       }

@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Fira_Code } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { portfolioData } from "@/data/portfolio";
 import LiquidEther from "@/components/LiquidEther";
 import NeonGridBackground from "@/components/NeonGridBackground";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
-  subsets: ["latin"],
-});
+import RotatingText from "@/components/RotatingText";
 
 export const metadata: Metadata = {
   title: `${portfolioData.personal.name} | Developer Portfolio`,
@@ -79,10 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${firaCode.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
           <LiquidEther
@@ -110,7 +97,7 @@ export default function RootLayout({
         <NeonGridBackground />
 
         <header className="fixed inset-x-0 top-2 z-40 pointer-events-none">
-          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 md:px-8 md:py-4">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-3 py-3 sm:px-6 md:px-1 md:py-3">
             <p className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[#6d28d9]/20 bg-white/85 px-3 py-1.5 text-base font-bold tracking-tight text-[#3730a3] shadow-[0_8px_26px_-18px_rgba(49,46,129,0.7)]">
               <span
                 className="h-2.5 w-2.5 rounded-full shadow-[0_0_14px_rgba(250,204,21,0.95),0_0_22px_rgba(124,58,237,0.6)]"
@@ -120,7 +107,20 @@ export default function RootLayout({
                     "radial-gradient(circle at 35% 35%, #facc15 0%, #f59e0b 30%, #7c3aed 70%, #4c1d95 100%)",
                 }}
               />
-              Available for freelance & full-time
+              <span>Available for&nbsp;</span>
+              <RotatingText
+                texts={["freelance", "full-time"]}
+                mainClassName="inline-flex min-w-[9ch] overflow-visible px-[2px] py-[1px]"
+                splitLevelClassName="overflow-visible"
+                elementLevelClassName="inline-block rotating-pill-word"
+                staggerFrom="first"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.02}
+                transition={{ type: "spring", damping: 28, stiffness: 380 }}
+                rotationInterval={1700}
+              />
             </p>
 
             <nav className="pointer-events-auto shrink-0 md:translate-x-4">
