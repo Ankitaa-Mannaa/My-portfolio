@@ -85,7 +85,7 @@ export const portfolioData = {
     },
     {
       title: "Frontend Development",
-      items: ["React", "Next.js"],
+      items: ["React", "Next.js", "Redux Toolkit"],
     },
     {
       title: "Backend Development",
@@ -113,7 +113,7 @@ export const portfolioData = {
       ],
     },
     {
-      title: "AI / Machine Learning / GenAI",
+      title: "AI / GenAI",
       items: [
         "LangChain",
         "LangGraph",
@@ -122,7 +122,20 @@ export const portfolioData = {
         "Vector Search & Embeddings",
         "Vertex AI",
         "Meta AI tools",
+        "Prompt Engineering"
       ],
+    },
+    {
+      title: "Machine Learning / Deep Learning", 
+      items: [
+        "LSTM Autoencoders",
+        "TensorFlow",
+        "NLP Models",
+        "Transformers",
+        "Temporal Convolutional Networks",
+        "Computer Vision",
+        "OpenCV"
+      ]
     },
     {
       title: "Integrations & Tools",
@@ -130,16 +143,18 @@ export const portfolioData = {
         "Stripe",
         "PayPal APIs",
         "CopilotKit",
-        "Firebase Authentication (Google & Facebook OAuth)",
+        "Firebase Authentication",
+        "Google OAuth",
+        "Facebook OAuth",
       ],
     },
     {
       title: "Cloud & DevOps",
       items: [
-        "AWS (EC2, Lambda)",
-        "Cloudflare",
-        "Azure (Container Apps, Container Registry, Azure CLI)",
+        "AWS (EC2, Lambda, S3, SQS, Bedrock)",
+        "Cloudflare (Stream)",
         "Docker",
+        "Azure (Container Apps, Container Registry, Azure CLI)",
       ],
     },
   ] as SkillCategory[],

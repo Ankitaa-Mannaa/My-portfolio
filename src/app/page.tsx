@@ -1,10 +1,153 @@
 ﻿"use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
 import VariableProximity from "@/components/VariableProximity";
+
+const techCardThemes = [
+  {
+    accent: "#06b6d4",
+    accentSoft: "rgba(6, 182, 212, 0.14)",
+    accentFade: "rgba(6, 182, 212, 0.06)",
+    bgStart: "#f3fbff",
+    bgEnd: "#dff7fb",
+    border: "rgba(6, 182, 212, 0.34)",
+    borderHover: "rgba(6, 182, 212, 0.8)",
+    frame: "rgba(6, 182, 212, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(6, 182, 212, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(6, 182, 212, 0.38), 0 0 0 1px rgba(6, 182, 212, 0.16), 0 0 28px rgba(6, 182, 212, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(6, 182, 212, 0.18)",
+    pillHoverBg: "rgba(6, 182, 212, 0.12)",
+    pillHoverRing: "rgba(6, 182, 212, 0.22)",
+    pillHoverGlow: "rgba(6, 182, 212, 0.18)",
+    pillDotGlow: "rgba(6, 182, 212, 0.46)",
+  },
+  {
+    accent: "#8b5cf6",
+    accentSoft: "rgba(139, 92, 246, 0.14)",
+    accentFade: "rgba(139, 92, 246, 0.06)",
+    bgStart: "#f7f2ff",
+    bgEnd: "#e9e0ff",
+    border: "rgba(139, 92, 246, 0.32)",
+    borderHover: "rgba(139, 92, 246, 0.82)",
+    frame: "rgba(139, 92, 246, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(124, 58, 237, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(124, 58, 237, 0.38), 0 0 0 1px rgba(139, 92, 246, 0.16), 0 0 28px rgba(139, 92, 246, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(139, 92, 246, 0.18)",
+    pillHoverBg: "rgba(139, 92, 246, 0.12)",
+    pillHoverRing: "rgba(139, 92, 246, 0.22)",
+    pillHoverGlow: "rgba(139, 92, 246, 0.18)",
+    pillDotGlow: "rgba(139, 92, 246, 0.46)",
+  },
+  {
+    accent: "#f59e0b",
+    accentSoft: "rgba(245, 158, 11, 0.14)",
+    accentFade: "rgba(245, 158, 11, 0.06)",
+    bgStart: "#fff9ec",
+    bgEnd: "#fff1d7",
+    border: "rgba(245, 158, 11, 0.34)",
+    borderHover: "rgba(245, 158, 11, 0.82)",
+    frame: "rgba(245, 158, 11, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(217, 119, 6, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(217, 119, 6, 0.38), 0 0 0 1px rgba(245, 158, 11, 0.16), 0 0 28px rgba(245, 158, 11, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(245, 158, 11, 0.18)",
+    pillHoverBg: "rgba(245, 158, 11, 0.12)",
+    pillHoverRing: "rgba(245, 158, 11, 0.22)",
+    pillHoverGlow: "rgba(245, 158, 11, 0.18)",
+    pillDotGlow: "rgba(245, 158, 11, 0.46)",
+  },
+  {
+    accent: "#10b981",
+    accentSoft: "rgba(16, 185, 129, 0.14)",
+    accentFade: "rgba(16, 185, 129, 0.06)",
+    bgStart: "#f0fbf4",
+    bgEnd: "#dff7ea",
+    border: "rgba(16, 185, 129, 0.32)",
+    borderHover: "rgba(16, 185, 129, 0.82)",
+    frame: "rgba(16, 185, 129, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(16, 185, 129, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(16, 185, 129, 0.38), 0 0 0 1px rgba(16, 185, 129, 0.16), 0 0 28px rgba(16, 185, 129, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(16, 185, 129, 0.18)",
+    pillHoverBg: "rgba(16, 185, 129, 0.12)",
+    pillHoverRing: "rgba(16, 185, 129, 0.22)",
+    pillHoverGlow: "rgba(16, 185, 129, 0.18)",
+    pillDotGlow: "rgba(16, 185, 129, 0.46)",
+  },
+  {
+    accent: "#f43f5e",
+    accentSoft: "rgba(244, 63, 94, 0.14)",
+    accentFade: "rgba(244, 63, 94, 0.06)",
+    bgStart: "#fff3f6",
+    bgEnd: "#ffe3ea",
+    border: "rgba(244, 63, 94, 0.32)",
+    borderHover: "rgba(244, 63, 94, 0.82)",
+    frame: "rgba(244, 63, 94, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(244, 63, 94, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(244, 63, 94, 0.38), 0 0 0 1px rgba(244, 63, 94, 0.16), 0 0 28px rgba(244, 63, 94, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(244, 63, 94, 0.18)",
+    pillHoverBg: "rgba(244, 63, 94, 0.12)",
+    pillHoverRing: "rgba(244, 63, 94, 0.22)",
+    pillHoverGlow: "rgba(244, 63, 94, 0.18)",
+    pillDotGlow: "rgba(244, 63, 94, 0.46)",
+  },
+  {
+    accent: "#38bdf8",
+    accentSoft: "rgba(56, 189, 248, 0.14)",
+    accentFade: "rgba(56, 189, 248, 0.06)",
+    bgStart: "#f1f9ff",
+    bgEnd: "#dfefff",
+    border: "rgba(56, 189, 248, 0.32)",
+    borderHover: "rgba(56, 189, 248, 0.82)",
+    frame: "rgba(56, 189, 248, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(56, 189, 248, 0.38), 0 0 0 1px rgba(56, 189, 248, 0.16), 0 0 28px rgba(56, 189, 248, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(56, 189, 248, 0.18)",
+    pillHoverBg: "rgba(56, 189, 248, 0.12)",
+    pillHoverRing: "rgba(56, 189, 248, 0.22)",
+    pillHoverGlow: "rgba(56, 189, 248, 0.18)",
+    pillDotGlow: "rgba(56, 189, 248, 0.46)",
+  },
+  {
+    accent: "#ec4899",
+    accentSoft: "rgba(236, 72, 153, 0.14)",
+    accentFade: "rgba(236, 72, 153, 0.06)",
+    bgStart: "#fff4f8",
+    bgEnd: "#ffe2ec",
+    border: "rgba(236, 72, 153, 0.32)",
+    borderHover: "rgba(236, 72, 153, 0.82)",
+    frame: "rgba(236, 72, 153, 0.18)",
+    shadow:
+      "0 18px 40px -28px rgba(236, 72, 153, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.92)",
+    shadowHover:
+      "0 24px 56px -28px rgba(236, 72, 153, 0.38), 0 0 0 1px rgba(236, 72, 153, 0.16), 0 0 28px rgba(236, 72, 153, 0.16)",
+    pillBg: "rgba(255, 255, 255, 0.78)",
+    pillBorder: "rgba(236, 72, 153, 0.18)",
+    pillHoverBg: "rgba(236, 72, 153, 0.12)",
+    pillHoverRing: "rgba(236, 72, 153, 0.22)",
+    pillHoverGlow: "rgba(236, 72, 153, 0.18)",
+    pillDotGlow: "rgba(236, 72, 153, 0.46)",
+  },
+] as const;
 
 export default function Home() {
   const { personal, socialLinks, skillCategories, experience } = portfolioData;
@@ -15,6 +158,24 @@ export default function Home() {
   const [isTechHeadingHovered, setIsTechHeadingHovered] = useState(false);
   const shortBioContainerRef = useRef<HTMLDivElement | null>(null);
   const [isShortBioHovered, setIsShortBioHovered] = useState(false);
+  const heroStatusPillStyle: CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 0,
+    width: "fit-content",
+    maxWidth: "100%",
+    borderRadius: "9999px",
+    border: "2px solid rgba(255, 73, 109, 0.98)",
+    background: "transparent",
+    padding: "0.8rem 1.30rem",
+    color: "#68131a",
+    fontSize: "0.9rem",
+    fontWeight: 800,
+    lineHeight: 1,
+    letterSpacing: "-0.02em",
+    boxShadow:
+      "0 0 0 1px rgba(255, 73, 109, 0.14), 0 0 24px rgba(255, 73, 109, 0.12)",
+  };
 
   return (
     <div className="relative">
@@ -65,8 +226,10 @@ export default function Home() {
             </p>
           ) : null}
           {personal.heroPoints?.length ? (
-            <p className="inline-flex max-w-3xl rounded-full border border-[#c82525]/20 bg-red/55 px-5 py-2 font-bold text-sm leading-relaxed text-[#c82581] shadow-[0_8px_20px_-16px_rgba(49,46,129,0.55)] md:text-base">
-              {personal.heroPoints.join(" | ")}
+            <p className="hero-status-pill" style={heroStatusPillStyle}>
+              <span className="hero-status-pill-text" style={{ textShadow: "0 1px 0 rgba(0, 0, 0, 0.16)" }}>
+                {personal.heroPoints.join(" | ")}
+              </span>
             </p>
           ) : null}
           <div
@@ -214,28 +377,80 @@ export default function Home() {
               active={isTechHeadingHovered}
             />
           </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-black/65 md:text-base">
+            These are the technical skills I&apos;ve learned, loved, and, at
+            times, had to pick up for client work. In the end, every one of
+            them pushed me to level up, stay curious, and learn something new.
+          </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          {skillCategories.map((category) => (
-            <article
-              key={category.title}
-              className="rounded-3xl border border-black/10 bg-white/92 p-6 shadow-[0_15px_35px_-30px_rgba(0,0,0,0.45)]"
-            >
-              <h3 className="mb-5 font-mono text-xl font-bold tracking-wide text-black/80">
-                {category.title}
-              </h3>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                {category.items.map((skill) => (
-                  <div
-                    key={skill}
-                    className="rounded-2xl border border-black/10 bg-white px-3 py-4 text-center text-sm font-semibold text-black/70"
-                  >
-                    {skill}
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
+          {skillCategories.map((category, index) => {
+            const theme = techCardThemes[index % techCardThemes.length];
+
+            return (
+              <article
+                key={category.title}
+                className="tech-card p-6"
+                style={
+                  {
+                    "--tech-accent": theme.accent,
+                    "--tech-accent-soft": theme.accentSoft,
+                    "--tech-accent-fade": theme.accentFade,
+                    "--tech-bg-start": theme.bgStart,
+                    "--tech-bg-end": theme.bgEnd,
+                    "--tech-border": theme.border,
+                    "--tech-border-hover": theme.borderHover,
+                    "--tech-frame": theme.frame,
+                    "--tech-shadow": theme.shadow,
+                    "--tech-shadow-hover": theme.shadowHover,
+                    "--tech-pill-bg": theme.pillBg,
+                    "--tech-pill-border": theme.pillBorder,
+                    "--tech-pill-hover-bg": theme.pillHoverBg,
+                    "--tech-pill-hover-ring": theme.pillHoverRing,
+                    "--tech-pill-hover-glow": theme.pillHoverGlow,
+                    "--tech-pill-dot-glow": theme.pillDotGlow,
+                  } as CSSProperties
+                }
+              >
+                <span
+                  className="tech-card-corner tech-card-corner-tl"
+                  aria-hidden="true"
+                />
+                <span
+                  className="tech-card-corner tech-card-corner-tr"
+                  aria-hidden="true"
+                />
+                <span
+                  className="tech-card-corner tech-card-corner-bl"
+                  aria-hidden="true"
+                />
+                <span
+                  className="tech-card-corner tech-card-corner-br"
+                  aria-hidden="true"
+                />
+
+                <div className="tech-card-header">
+                  <h3 className="tech-card-title">
+                    {category.title === "Programming Language"
+                      ? "Programming Languages"
+                      : category.title}
+                  </h3>
+                  <span className="tech-card-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div className="tech-pill-grid">
+                  {category.items.map((skill) => (
+                    <span key={skill} className="tech-pill">
+                      <span className="tech-pill-dot" aria-hidden="true" />
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 

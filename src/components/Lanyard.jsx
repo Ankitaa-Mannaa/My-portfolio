@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
-import { Environment, Lightformer } from "@react-three/drei";
+import { Environment, Lightformer, useTexture } from "@react-three/drei";
 import {
   BallCollider,
   CuboidCollider,
@@ -129,6 +129,7 @@ function Band({
   );
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
+  const photoTexture = useTexture("/my-photo.jpg");
 
   useRopeJoint(fixed, j1, [
     [0, 0, 0],
@@ -246,6 +247,10 @@ function Band({
                 roughness={0.72}
                 metalness={0.25}
               />
+            </mesh>
+            <mesh position={[0, -0.08, 0.045]}>
+              <planeGeometry args={[0.86, 1.08]} />
+              <meshStandardMaterial map={photoTexture} />
             </mesh>
             <mesh position={[0, 0.92, 0.03]}>
               <cylinderGeometry args={[0.085, 0.085, 0.06, 24]} />

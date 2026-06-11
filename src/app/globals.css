@@ -258,6 +258,182 @@ body {
   @apply space-y-3 rounded-2xl border border-black/10 bg-[var(--paper)] p-5 shadow-[0_15px_40px_-30px_rgba(0,0,0,0.65)];
 }
 
+.tech-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  border: 1px solid var(--tech-border);
+  background:
+    radial-gradient(120% 110% at 0% 0%, var(--tech-accent-soft), transparent 55%),
+    radial-gradient(100% 90% at 100% 100%, var(--tech-accent-fade), transparent 48%),
+    linear-gradient(135deg, var(--tech-bg-start), var(--tech-bg-end));
+  box-shadow: var(--tech-shadow);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--tech-border-hover);
+  box-shadow: var(--tech-shadow-hover);
+}
+
+.tech-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, var(--tech-accent-soft) 0%, transparent 34%),
+    radial-gradient(circle at 86% 84%, var(--tech-accent-fade) 0%, transparent 38%);
+  opacity: 0.8;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+
+.tech-card:hover::before {
+  opacity: 0.95;
+}
+
+.tech-card::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--tech-frame);
+  border-radius: calc(1.75rem - 14px);
+  pointer-events: none;
+}
+
+.tech-card-corner {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border-color: var(--tech-accent);
+  opacity: 0.82;
+  pointer-events: none;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.tech-card:hover .tech-card-corner {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.tech-card-corner-tl {
+  top: 16px;
+  left: 16px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.tech-card-corner-tr {
+  top: 16px;
+  right: 16px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+}
+
+.tech-card-corner-bl {
+  left: 16px;
+  bottom: 16px;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+}
+
+.tech-card-corner-br {
+  right: 16px;
+  bottom: 16px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+.tech-card-header {
+  @apply relative z-10 mb-5 flex items-start justify-between gap-4;
+}
+
+.tech-card-title {
+  @apply font-mono text-xl font-bold tracking-wide;
+  color: rgba(17, 24, 39, 0.96);
+}
+
+.tech-card-index {
+  @apply font-mono text-sm;
+  color: rgba(75, 85, 99, 0.72);
+}
+
+.tech-pill-grid {
+  @apply relative z-10 flex flex-wrap gap-3;
+}
+
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid var(--tech-pill-border);
+  background: var(--tech-pill-bg);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: rgba(17, 24, 39, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+.tech-pill:hover,
+.tech-pill:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--tech-accent);
+  background: var(--tech-pill-hover-bg);
+  box-shadow:
+    0 0 0 1px var(--tech-pill-hover-ring),
+    0 0 16px var(--tech-pill-hover-glow);
+  color: rgba(17, 24, 39, 0.98);
+  outline: none;
+}
+
+.tech-pill-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 9999px;
+  background: var(--tech-accent);
+  box-shadow: 0 0 12px var(--tech-pill-dot-glow);
+  flex: 0 0 auto;
+}
+
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 73, 109, 0.98);
+  background: transparent;
+  padding: 0.95rem 1.4rem;
+  color: #2a0911;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  box-shadow:
+    0 0 0 1px rgba(255, 73, 109, 0.14),
+    0 0 24px rgba(255, 73, 109, 0.12);
+}
+
+.hero-status-pill-text {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.16);
+}
+
 .chip {
   @apply rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold;
 }
