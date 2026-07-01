@@ -6,7 +6,7 @@ export default function AboutPage() {
 
   return (
     <div className="relative space-y-6">
-      <div className="pointer-events-none fixed inset-0 z-[25] hidden lg:block">
+      <div className="pointer-events-none fixed inset-0 z-[25] hidden translate-x-50 lg:block">
         <div className="pointer-events-auto h-full w-full">
           <Lanyard
             position={[0, 0, 20]}
