@@ -8,6 +8,7 @@ type FormStatus = "idle" | "sending" | "sent" | "error";
 export default function ContactPage() {
   const { personal, socialLinks } = portfolioData;
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const socialItems = [
     { label: "GitHub", handle: "Ankitaa-Mannaa", url: socialLinks.github },
@@ -22,6 +23,7 @@ export default function ContactPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
+    setErrorMessage("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -47,12 +49,16 @@ export default function ContactPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Contact request failed");
+        const errorText = await response.text();
+        throw new Error(errorText || "Contact request failed");
       }
 
       form.reset();
       setStatus("sent");
-    } catch {
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "Message could not be sent.",
+      );
       setStatus("error");
     }
   }
@@ -227,7 +233,7 @@ export default function ContactPage() {
               ) : null}
               {status === "error" ? (
                 <p className="mt-4 rounded-2xl border border-[#f87171]/25 bg-[#7f1d1d]/45 px-4 py-3 text-sm font-bold text-[#fecaca]">
-                  Message could not be sent. Email me directly for now.
+                  {errorMessage || "Message could not be sent. Email me directly for now."}
                 </p>
               ) : null}
             </form>
