@@ -322,6 +322,177 @@ body {
   transform: scale(1.05);
 }
 
+.tech-accordion-gallery {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0 1rem;
+  perspective: 1400px;
+  scrollbar-width: thin;
+}
+
+.tech-accordion-panel {
+  position: relative;
+  flex: 0 1 6.25rem;
+  isolation: isolate;
+  overflow: hidden;
+  min-width: 6.25rem;
+  min-height: 17rem;
+  border-radius: 1.75rem;
+  border: 1px solid var(--tech-border);
+  background:
+    radial-gradient(120% 110% at 0% 0%, var(--tech-accent-soft), transparent 55%),
+    radial-gradient(100% 90% at 100% 100%, var(--tech-accent-fade), transparent 48%),
+    linear-gradient(135deg, var(--tech-bg-start), var(--tech-bg-end));
+  box-shadow: var(--tech-shadow);
+  cursor: pointer;
+  outline: none;
+  padding: 1.35rem;
+  transform-style: preserve-3d;
+  transition:
+    flex 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    flex-basis 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    min-width 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.tech-accordion-panel:hover,
+.tech-accordion-panel:focus-visible,
+.tech-accordion-panel-active {
+  flex: 0 0 var(--tech-expanded-size, clamp(22rem, 42vw, 40rem));
+  min-height: 0;
+  min-width: min(22rem, 62vw);
+  border-color: var(--tech-border-hover);
+  box-shadow: var(--tech-shadow-hover);
+}
+
+.tech-accordion-panel:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--tech-accent),
+    var(--tech-shadow-hover);
+}
+
+.tech-accordion-panel:hover {
+  transform: translateY(-4px);
+}
+
+.tech-accordion-panel:not(.tech-accordion-panel-active):not(:hover):not(:focus-visible) {
+  filter: saturate(0.78);
+}
+
+.tech-accordion-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, var(--tech-accent-soft) 0%, transparent 34%),
+    radial-gradient(circle at 86% 84%, var(--tech-accent-fade) 0%, transparent 38%);
+  opacity: 0.8;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+
+.tech-accordion-panel-active::before,
+.tech-accordion-panel:hover::before {
+  opacity: 0.96;
+}
+
+.tech-accordion-panel::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--tech-frame);
+  border-radius: calc(1.75rem - 14px);
+  pointer-events: none;
+}
+
+.tech-accordion-panel:hover .tech-card-corner,
+.tech-accordion-panel-active .tech-card-corner {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.tech-accordion-card-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  min-height: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.tech-accordion-title {
+  color: rgba(17, 24, 39, 0.96);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 900;
+  line-height: 1.08;
+  max-height: 23rem;
+  max-width: 2.25rem;
+  overflow: hidden;
+  transform: rotate(180deg);
+  transform-origin: center;
+  transition:
+    transform 360ms ease,
+    writing-mode 360ms ease,
+    font-size 220ms ease;
+  writing-mode: vertical-rl;
+}
+
+.tech-accordion-panel-active .tech-accordion-title,
+.tech-accordion-panel:hover .tech-accordion-title,
+.tech-accordion-panel:focus-visible .tech-accordion-title {
+  font-size: 1.28rem;
+  max-height: none;
+  max-width: min(35rem, 58vw);
+  transform: rotate(0deg);
+  writing-mode: horizontal-tb;
+}
+
+.tech-accordion-pill-grid {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  grid-template-rows: repeat(6, auto);
+  gap: 0.55rem 0.65rem;
+  margin-top: 0.75rem;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    max-height 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease,
+    transform 300ms ease;
+}
+
+.tech-accordion-panel-active .tech-accordion-pill-grid,
+.tech-accordion-panel:hover .tech-accordion-pill-grid,
+.tech-accordion-panel:focus-visible .tech-accordion-pill-grid {
+  max-height: 20rem;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (min-width: 901px) {
+  .tech-accordion-panel:not(.tech-accordion-panel-active):not(:hover):not(:focus-visible) .tech-card-index {
+    opacity: 0.55;
+    position: absolute;
+    right: 1.35rem;
+    top: 1.35rem;
+  }
+}
+
 .tech-card-corner-tl {
   top: 16px;
   left: 16px;
@@ -375,8 +546,8 @@ body {
   border-radius: 9999px;
   border: 1px solid var(--tech-pill-border);
   background: var(--tech-pill-bg);
-  padding: 0.5rem 0.9rem;
-  font-size: 0.98rem;
+  padding: 0.42rem 0.78rem;
+  font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: rgba(17, 24, 39, 0.92);
@@ -402,12 +573,55 @@ body {
 }
 
 .tech-pill-dot {
-  width: 0.38rem;
-  height: 0.38rem;
+  width: 0.32rem;
+  height: 0.32rem;
   border-radius: 9999px;
   background: var(--tech-accent);
   box-shadow: 0 0 12px var(--tech-pill-dot-glow);
   flex: 0 0 auto;
+}
+
+@media (max-width: 720px) {
+  .tech-accordion-gallery {
+    flex-direction: column;
+    min-height: 0;
+    overflow-x: visible;
+  }
+
+  .tech-accordion-panel,
+  .tech-accordion-panel:hover,
+  .tech-accordion-panel:focus-visible,
+  .tech-accordion-panel-active {
+    flex: 1 1 auto !important;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .tech-accordion-card-content {
+    min-height: 0;
+  }
+
+  .tech-accordion-title,
+  .tech-accordion-panel-active .tech-accordion-title,
+  .tech-accordion-panel:hover .tech-accordion-title,
+  .tech-accordion-panel:focus-visible .tech-accordion-title {
+    font-size: 1.15rem;
+    transform: none;
+    writing-mode: horizontal-tb;
+  }
+
+  .tech-accordion-pill-grid,
+  .tech-accordion-panel-active .tech-accordion-pill-grid,
+  .tech-accordion-panel:hover .tech-accordion-pill-grid,
+  .tech-accordion-panel:focus-visible .tech-accordion-pill-grid {
+    max-height: none;
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    inset: auto;
+    margin-top: 1.25rem;
+    transform: none;
+  }
 }
 
 .hero-status-pill {

@@ -1,41 +1,17 @@
-"use client";
-
-import { useEffect } from "react";
-
 export default function NeonGridBackground() {
-  useEffect(() => {
-    let rafId = 0;
-
-    const updateNeonGrid = () => {
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const progress = Math.min(1, window.scrollY / maxScroll);
-
-      const rotate = progress * 150;
-      const shift = progress * 1200;
-      const opacity = Math.max(0.14, 0.24 - progress * 0.1);
-
-      const root = document.documentElement;
-      root.style.setProperty("--neon-grid-rotate", `${rotate.toFixed(2)}deg`);
-      root.style.setProperty("--neon-grid-shift", `${shift.toFixed(2)}px`);
-      root.style.setProperty("--neon-grid-opacity", opacity.toFixed(3));
-      rafId = 0;
-    };
-
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = window.requestAnimationFrame(updateNeonGrid);
-    };
-
-    updateNeonGrid();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  return <div className="neon-scroll-bg" aria-hidden="true" />;
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: "fixed",
+        inset: 0,
+        pointerEvents: "none",
+        zIndex: 2,
+        opacity: 0.42,
+        backgroundImage:
+          "repeating-linear-gradient(90deg, rgba(76, 29, 149, 0.7) 0px, rgba(245, 234, 117, 0.55) 1px, rgba(30, 58, 138, 0.68) 2px, transparent 2px, transparent 68px), repeating-linear-gradient(0deg, rgba(76, 29, 149, 0.62) 0px, rgba(245, 234, 117, 0.48) 1px, rgba(30, 58, 138, 0.56) 2px, transparent 2px, transparent 68px)",
+        backgroundPosition: "0 0, 0 0",
+      }}
+    />
+  );
 }

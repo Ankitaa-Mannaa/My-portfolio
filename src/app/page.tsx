@@ -156,6 +156,7 @@ export default function Home() {
   const lastName = remainingNameParts.join(" ");
   const techHeadingContainerRef = useRef<HTMLDivElement | null>(null);
   const [isTechHeadingHovered, setIsTechHeadingHovered] = useState(false);
+  const [activeTechIndex, setActiveTechIndex] = useState(0);
   const shortBioContainerRef = useRef<HTMLDivElement | null>(null);
   const [isShortBioHovered, setIsShortBioHovered] = useState(false);
   const heroStatusPillStyle: CSSProperties = {
@@ -383,14 +384,28 @@ export default function Home() {
             them pushed me to level up, stay curious, and learn something new.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="tech-accordion-gallery">
           {skillCategories.map((category, index) => {
             const theme = techCardThemes[index % techCardThemes.length];
+            const title =
+              category.title === "Programming Language"
+                ? "Programming Languages"
+                : category.title;
+            const isActive = index === activeTechIndex;
+            const expandedSize =
+              category.items.length > 12
+                ? "clamp(32rem, 48vw, 44rem)"
+                : category.items.length > 6
+                  ? "clamp(26rem, 38vw, 36rem)"
+                  : "clamp(18rem, 26vw, 25rem)";
 
             return (
               <article
                 key={category.title}
-                className="tech-card p-6"
+                className={`tech-accordion-panel${isActive ? " tech-accordion-panel-active" : ""}`}
+                tabIndex={0}
+                onMouseEnter={() => setActiveTechIndex(index)}
+                onFocus={() => setActiveTechIndex(index)}
                 style={
                   {
                     "--tech-accent": theme.accent,
@@ -409,6 +424,8 @@ export default function Home() {
                     "--tech-pill-hover-ring": theme.pillHoverRing,
                     "--tech-pill-hover-glow": theme.pillHoverGlow,
                     "--tech-pill-dot-glow": theme.pillDotGlow,
+                    "--tech-expanded-size": expandedSize,
+                    flex: isActive ? `0 0 ${expandedSize}` : "0 1 6.25rem",
                   } as CSSProperties
                 }
               >
@@ -429,18 +446,16 @@ export default function Home() {
                   aria-hidden="true"
                 />
 
-                <div className="tech-card-header">
-                  <h3 className="tech-card-title">
-                    {category.title === "Programming Language"
-                      ? "Programming Languages"
-                      : category.title}
+                <div className="tech-accordion-card-content">
+                  <h3 className="tech-accordion-title">
+                    {title}
                   </h3>
                   <span className="tech-card-index">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                <div className="tech-pill-grid">
+                <div className="tech-accordion-pill-grid">
                   {category.items.map((skill) => (
                     <span key={skill} className="tech-pill">
                       <span className="tech-pill-dot" aria-hidden="true" />
@@ -455,20 +470,47 @@ export default function Home() {
       </section>
 
       <section className="space-y-7 md:space-y-8">
-        <h2 className="text-3xl font-bold">Experience</h2>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="mt-1 text-2xl font-black text-[#000000] md:text-4xl">
+              Experience
+            </h2>
+          </div>
+          <div className="hidden h-px flex-1 bg-gradient-to-r from-[#7c3aed]/45 via-[#facc15]/55 to-transparent sm:block" />
+        </div>
+
         <div className="grid gap-6 md:grid-cols-2">
-          {experience.map((item) => (
+          {experience.map((item, index) => (
             <article
               key={`${item.role}-${item.company}`}
-              className="rounded-3xl border border-black/10 bg-white/92 p-5 shadow-[0_15px_35px_-30px_rgba(0,0,0,0.45)]"
+              className="group relative overflow-hidden rounded-[1.75rem] border border-[#6d28d9]/18 bg-white/82 p-6 shadow-[0_22px_45px_-32px_rgba(49,46,129,0.75)] backdrop-blur-md transition duration-200 hover:-translate-y-1 hover:border-[#7c3aed]/35 hover:shadow-[0_26px_55px_-34px_rgba(76,29,149,0.85)]"
             >
-              <h3 className="text-xl font-bold">{item.role}</h3>
-              <p className="font-mono text-sm text-black/70">
-                {item.company} | {item.period}
-              </p>
-              <ul className="mt-3 space-y-1 text-sm leading-relaxed text-black/80">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#7c3aed] via-[#facc15] to-[#0f766e]" />
+              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#facc15]/14 blur-2xl transition group-hover:bg-[#7c3aed]/14" />
+
+              <div className="relative flex items-start gap-4">
+                <span className="mt-1 grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-[#7c3aed]/25 bg-[#ede9fe]/85 text-sm font-black text-[#312e81] shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_10px_24px_-18px_rgba(76,29,149,0.8)]">
+                  0{index + 1}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-xl font-black leading-tight text-[#1f1b4d]">
+                    {item.role}
+                  </h3>
+                  <p className="mt-2 inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 rounded-full border border-[#0f766e]/18 bg-[#ecfdf5]/80 px-3 py-1 text-sm font-bold text-[#31524d]">
+                    <span>{item.company}</span>
+                    <span className="text-[#7c3aed]/55">|</span>
+                    <span>{item.period}</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul className="relative mt-5 space-y-3 text-[0.95rem] leading-relaxed text-[#27233d]/82">
                 {item.highlights.map((highlight) => (
-                  <li key={highlight}>- {highlight}</li>
+                  <li key={highlight} className="flex gap-3">
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#facc15] shadow-[0_0_0_4px_rgba(250,204,21,0.18),0_0_14px_rgba(124,58,237,0.35)]" />
+                    <span>{highlight}</span>
+                  </li>
                 ))}
               </ul>
             </article>

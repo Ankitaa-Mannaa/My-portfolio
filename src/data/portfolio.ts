@@ -3,7 +3,7 @@ export type Project = {
   description: string;
   techStack: string[];
   liveUrl: string;
-  githubUrl: string;
+  githubUrl?: string;
 };
 
 export type Education = {
@@ -45,6 +45,7 @@ export const portfolioData = {
   socialLinks: {
     github: "https://github.com/Ankitaa-Mannaa",
     linkedin: "https://www.linkedin.com/in/ankita-manna",
+    instagram: "https://www.instagram.com/_ankiiiiiita_",
     twitter: "#",
     website: "#",
   },
@@ -173,8 +174,7 @@ export const portfolioData = {
         "Stripe",
         "PayPal",
       ],
-      liveUrl: "#",
-      githubUrl: "https://github.com/Ankitaa-Mannaa",
+      liveUrl: "https://flocktogether.xyz/",
     },
     {
       title: "Cuvaide Multi-Agent AI",
@@ -189,8 +189,8 @@ export const portfolioData = {
         "Docker",
         "Azure",
       ],
-      liveUrl: "#",
-      githubUrl: "https://github.com/Ankitaa-Mannaa",
+      liveUrl:
+        "https://cuvaide-app-staging.icybay-d8b7b410.westus.azurecontainerapps.io/login",
     },
     {
       title: "Verifisert - Automated Compliance & Quality Review",
@@ -206,8 +206,24 @@ export const portfolioData = {
         "OpenAI",
         "Next.js",
       ],
-      liveUrl: "#",
-      githubUrl: "https://github.com/Ankitaa-Mannaa",
+      liveUrl: "https://verifisert.no/login",
+    },
+    {
+      title: "RegimeFlow - Intelligent Multi-Timeframe Trading System",
+      description:
+        "Built an intelligent trading bot with deterministic 5-minute execution, multi-timeframe signal gating, strict risk controls, broker reconciliation, and a live monitoring dashboard.",
+      techStack: [
+        "Python",
+        "Trading Bot",
+        "ATR(14)",
+        "Ichimoku",
+        "Multi-Timeframe",
+        "Risk Management",
+        "Live Dashboard",
+        "Broker Reconciliation",
+      ],
+      liveUrl: "https://128.140.105.123/dashboard",
+      githubUrl: "https://github.com/Ankitaa-Mannaa/intelligent-trading-bot",
     },
   ] as Project[],
   seo: {
